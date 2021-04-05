@@ -1,6 +1,8 @@
 # pulaPirata
 ATENÇÃO!!!! Coloque a pasta commons fora da pasta principal do projeto git (fiquei com preguiça de mudar o CMAKE)
 
+As câmeras tão aí, o ajuste fino fica pra entrega final, sem tempo irmão
+
 Ex:
 
 <pre>Pasta criada-> 
