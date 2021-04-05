@@ -177,7 +177,7 @@ int main( void )
 	std::vector<glm::vec3> verticesPirata;
 	std::vector<glm::vec2> uvsPirata;
 	std::vector<glm::vec3> normalsPirata; // Won't be used at the moment.
-	bool resPirata = loadOBJ("piratinha.obj", verticesPirata, uvsPirata, normalsPirata);
+	bool resPirata = loadOBJ("pirata.obj", verticesPirata, uvsPirata, normalsPirata);
 
 	// Load it into a VBO
 	GLuint vertexbufferPirata;
