@@ -1,14 +1,14 @@
 # pulaPirata
 ATENÇÃO!!!! Coloque a pasta commons fora da pasta principal do projeto git (fiquei com preguiça de mudar o CMAKE)
-
 Ex:
 
-Pasta criada->
+<pre>Pasta criada-> 
       commons
       projetoClonado->
                  Coisas do projeto
-                 (commons foi movido daqui para pasta criada)
+                 (commons foi movido daqui para pasta criada)</pre>
 
+As câmeras tão aí, o ajuste fino fica pra entrega final, sem tempo irmão
 
 COMANDOS:
 
