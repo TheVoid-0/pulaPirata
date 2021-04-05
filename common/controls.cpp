@@ -26,18 +26,18 @@ glm::mat4 getOrthoProjectionMatrix() {
 
 
 // Initial position : on +Z
-glm::vec3 position = glm::vec3( 0, 0, 5 ); 
+glm::vec3 position = glm::vec3( 0, 5, 30 ); 
 // Initial horizontal angle : toward -Z
 float horizontalAngle = 3.14f;
 // Initial vertical angle : none
-float verticalAngle = 0.0f;
+float verticalAngle = -20.0f * 3.14f / 180.0f;//3.14f;
 // Initial Field of View
 float initialFoV = 45.0f;
 
-float speed = 300.0f; // 3 units / second
+float speed = 3.0f; // 3 units / second
 float mouseSpeed = 0.005f;
 
-
+bool swapProjectionFlag = true;
 
 void computeMatricesFromInputs(){
 
@@ -76,6 +76,7 @@ void computeMatricesFromInputs(){
 	// Up vector
 	glm::vec3 up = glm::cross( right, direction );
 
+	
 	// Move forward
 	if (glfwGetKey( window, GLFW_KEY_W ) == GLFW_PRESS){
 		position += direction * deltaTime * speed;
@@ -92,12 +93,35 @@ void computeMatricesFromInputs(){
 	if (glfwGetKey( window, GLFW_KEY_A ) == GLFW_PRESS){
 		position -= right * deltaTime * speed;
 	}
+	// change projection
+	if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS) {
+
+		if (glfwGetKey(window, GLFW_KEY_P) == GLFW_RELEASE) {
+			swapProjectionFlag = !swapProjectionFlag;
+		}
+	}
+	// zoom in
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+			initialFoV -= initialFoV * deltaTime;
+	}
+	// zoom out
+	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+		initialFoV += initialFoV * deltaTime;
+	}
 
 	float FoV = initialFoV;// - 5 * glfwGetMouseWheel(); // Now GLFW 3 requires setting up a callback for this. It's a bit too complicated for this beginner's tutorial, so it's disabled instead.
 
 	// Projection matrix : 45° Field of View, 4:3 ratio, display range : 0.1 unit <-> 100 units
-	//ProjectionMatrix = glm::perspective(glm::radians(FoV), 4.0f / 3.0f, 0.1f, 100.0f);
-	OrthoProjectionMatrix = glm::ortho(-512.0f, 512.0f, 384.0f, -384.0f, -500.0f, 500.0f);
+	if (swapProjectionFlag) {
+		ProjectionMatrix = glm::perspective(glm::radians(FoV), 4.0f / 3.0f, 0.1f, 100.0f);
+	}
+	else {
+		float min = -pow(10, glm::radians(FoV));
+		float max = pow(10, glm::radians(FoV));
+		//OrthoProjectionMatrix = glm::ortho(20.0f, -20.0f, -20.0f, 20.0f, 15.0f, -15.0f);
+		ProjectionMatrix = glm::ortho(min, max, min, max, -1000.0f, 1000.0f);
+	}
+	
 	// Camera matrix
 	ViewMatrix       = glm::lookAt(
 								position,           // Camera is here
