@@ -3,9 +3,9 @@ ATENÇÃO!!!! Coloque a pasta commons fora da pasta principal do projeto git (fi
 
 Ex:
 
-Pasta criada->
+Pasta criada-> <br>
       commons
-      projetoClonado->
+      projetoClonado-> <br>
                  Coisas do projeto
                  (commons foi movido daqui para pasta criada)
 
