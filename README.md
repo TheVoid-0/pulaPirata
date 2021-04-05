@@ -8,3 +8,18 @@ Pasta criada->
       projetoClonado->
                  Coisas do projeto
                  (commons foi movido daqui para pasta criada)
+
+
+COMANDOS:
+
+F1 até F3 altera entre as câmeras
+
+ARROW_UP e ARROW_DOWN altera o zoom
+
+P altera entre as projeções
+
+ENTER faz o bgl rodar igual microondas
+
+WASD movimenta as câmeras separadamente
+
+MOUSE faz papel de mouse né porra
