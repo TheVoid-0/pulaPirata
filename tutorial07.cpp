@@ -131,9 +131,10 @@ int main( void )
 
 	// Load the texture
 	//GLuint Texture = loadDDS("uvmap.DDS");
-	GLuint Texture = loadBMP_custom("wood-texture.bmp");
-	GLuint TextureEspada = loadBMP_custom("bluePlasticTexture.bmp");
-	GLuint TextureBarril = loadBMP_custom("darkWoodText.bmp");
+	GLuint Texture = loadDDS("./objects/textures/Mesa_texture.dds");
+	GLuint TextureEspada = loadDDS("./objects/textures/Espada_texture.dds");
+	GLuint TextureBarril = loadDDS("./objects/textures/Barril_texture.dds");
+	GLuint TexturePirata = loadDDS("./objects/textures/Pirata_texture.dds");
 
 	// Get a handle for our "myTextureSampler" uniform
 	GLuint TextureID  = glGetUniformLocation(programID, "myTextureSampler");
@@ -143,7 +144,7 @@ int main( void )
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec2> uvs;
 	std::vector<glm::vec3> normals; // Won't be used at the moment.
-	bool res = loadOBJ("Barril_final.obj", vertices, uvs, normals);
+	bool res = loadOBJ("objects/barril.obj", vertices, uvs, normals);
 	
 	// Load it into a VBO
 	GLuint vertexbuffer;
@@ -160,7 +161,7 @@ int main( void )
 	std::vector<glm::vec3> verticesEspada;
 	std::vector<glm::vec2> uvsEspada;
 	std::vector<glm::vec3> normalsEspada; // Won't be used at the moment.
-	bool resEspada = loadOBJ("espada.obj", verticesEspada, uvsEspada, normalsEspada);
+	bool resEspada = loadOBJ("objects/espada.obj", verticesEspada, uvsEspada, normalsEspada);
 	
 	// Load it into a VBO
 	GLuint vertexbufferEspada;
@@ -177,7 +178,7 @@ int main( void )
 	std::vector<glm::vec3> verticesPirata;
 	std::vector<glm::vec2> uvsPirata;
 	std::vector<glm::vec3> normalsPirata; // Won't be used at the moment.
-	bool resPirata = loadOBJ("pirata.obj", verticesPirata, uvsPirata, normalsPirata);
+	bool resPirata = loadOBJ("objects/pirata.obj", verticesPirata, uvsPirata, normalsPirata);
 
 	// Load it into a VBO
 	GLuint vertexbufferPirata;
@@ -194,7 +195,7 @@ int main( void )
 	std::vector<glm::vec3> verticesMesa;
 	std::vector<glm::vec2> uvsMesa;
 	std::vector<glm::vec3> normalsMesa; // Won't be used at the moment.
-	bool resMesa = loadOBJ("mesa.obj", verticesMesa, uvsMesa, normalsMesa);
+	bool resMesa = loadOBJ("objects/mesa.obj", verticesMesa, uvsMesa, normalsMesa);
 
 	do{
 
@@ -248,6 +249,9 @@ int main( void )
 		ModelMatrix3 = glm::translate(ModelMatrix3, glm::vec3(0.0f, 2.2f, 0.0f));
 		glm::mat4 MVP3 = ProjectionMatrix * ViewMatrix * ModelMatrix3;
 		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP3[0][0]);
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, TexturePirata);
 
 		draw(vertexbuffer, uvbuffer, verticesPirata, uvsPirata);
 
