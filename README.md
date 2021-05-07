@@ -1,4 +1,4 @@
-# pulaPirata
+# pulaPirata- Marco, Diovanna, Felipe Bolfe
 ATENÇÃO!!!! Coloque a pasta commons fora da pasta principal do projeto git (fiquei com preguiça de mudar o CMAKE)
 Ex:
 
