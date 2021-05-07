@@ -219,6 +219,8 @@ int main( void )
 	// Get a handle for our "LightPosition" uniform
 	glUseProgram(programID);
 	GLuint LightID = glGetUniformLocation(programID, "LightPosition_worldspace");
+	GLuint LightColorID = glGetUniformLocation(programID, "LightColor");
+	GLuint LightPowerID = glGetUniformLocation(programID, "LightPower");
 
 	do{
 
@@ -232,6 +234,8 @@ int main( void )
 		computeMatricesFromInputs();
 		glm::mat4 ProjectionMatrix = getProjectionMatrix();
 		glm::mat4 ViewMatrix = getViewMatrix();
+
+		// MESA
 		glm::mat4 ModelMatrix = glm::mat4(1.0);
 		glm::mat4 MVP = ProjectionMatrix * ViewMatrix * ModelMatrix;
 
@@ -245,11 +249,18 @@ int main( void )
 		glm::vec3 lightPos = glm::vec3(4, 4, 4);
 		glUniform3f(LightID, lightPos.x, lightPos.y, lightPos.z);
 
+		// send light color and power to respective uniforms on fragmentshader
+		glm::vec3 lightColor = glm::vec3(1, 1, 1);
+		glUniform3f(LightColorID, lightColor.x, lightColor.y, lightColor.z);
+		glUniform1f(LightPowerID, 50.0f);
+
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, Texture);
 
 		draw(vertexbuffer, uvbuffer, normalbuffer, verticesMesa, uvsMesa, normalsMesa);
+		// END MESA
 
+		// BARRIL
 		// Bind our texture in Texture Unit 0
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, TextureBarril);
@@ -257,7 +268,9 @@ int main( void )
 		glUniform1i(TextureID, 0);
 
 		draw(vertexbuffer, uvbuffer, normalbuffer, vertices, uvs, normals);
+		// END BARRIL
 
+		// ESPADA
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, TextureEspada);
 
@@ -272,18 +285,29 @@ int main( void )
 		glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &ModelMatrix2[0][0]);
 
 		draw(vertexbuffer, uvbuffer, normalbuffer, verticesEspada, uvsEspada, normalsEspada);
+		// END ESPADA
 
-		
+		// PIRATA
 		glm::mat4 ModelMatrix3 = glm::mat4(1.0);
 		ModelMatrix3 = glm::translate(ModelMatrix3, glm::vec3(0.0f, 2.2f, 0.0f));
 		glm::mat4 MVP3 = ProjectionMatrix * ViewMatrix * ModelMatrix3;
 		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP3[0][0]);
 		glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &ModelMatrix3[0][0]);
 
+		// Cria uma posição para a luz e envia aos shaders
+		glm::vec3 lightPosPirata = glm::vec3(4, 4, 4);
+		glUniform3f(LightID, lightPosPirata.x, lightPosPirata.y, lightPosPirata.z);
+
+		// send light color and power to respective uniforms on fragmentshader
+		glm::vec3 lightColorPirata = glm::vec3(1, 1, 0.7);
+		glUniform3f(LightColorID, lightColorPirata.x, lightColorPirata.y, lightColorPirata.z);
+		glUniform1f(LightPowerID, 50.0f);
+
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, TexturePirata);
 
 		draw(vertexbuffer, uvbuffer, normalbuffer, verticesPirata, uvsPirata, normalsPirata);
+		// END PIRATA
 
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
