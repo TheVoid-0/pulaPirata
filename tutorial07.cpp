@@ -305,11 +305,11 @@ int main( void )
 		glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &ModelMatrix3[0][0]);
 
 		// Cria uma posição para a luz e envia aos shaders
-		glm::vec3 lightPosPirata = glm::vec3(4, 4, 4);
+		glm::vec3 lightPosPirata = glm::vec3(4, 4, -4);
 		glUniform3f(LightID, lightPosPirata.x, lightPosPirata.y, lightPosPirata.z);
 
 		// send light color and power to respective uniforms on fragmentshader
-		glm::vec3 lightColorPirata = glm::vec3(1, 1, 0.7);
+		glm::vec3 lightColorPirata = glm::vec3(0.5, 0.5, 0);
 		glUniform3f(LightColorID, lightColorPirata.x, lightColorPirata.y, lightColorPirata.z);
 		glUniform1f(LightPowerID, 50.0f);
 
