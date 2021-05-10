@@ -12,13 +12,15 @@ As câmeras tão aí, o ajuste fino fica pra entrega final, sem tempo irmão
 
 COMANDOS:
 
+ENTER inicia o jogo (o jogo em si ainda não está implementado, mas o "pseudo-menu" está lá)
+
 F1 até F3 altera entre as câmeras
 
 ARROW_UP e ARROW_DOWN altera o zoom
 
 P altera entre as projeções
 
-ENTER faz o bgl rodar igual microondas
+ESPAÇO faz o bgl rodar igual microondas
 
 WASD movimenta as câmeras separadamente
 

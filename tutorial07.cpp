@@ -149,6 +149,7 @@ int main( void )
 	GLuint TextureEspada = loadDDS("./objects/textures/EspadaAzul.dds");
 	GLuint TextureBarril = loadDDS("./objects/textures/Barril_texture.dds");
 	GLuint TexturePirata = loadDDS("./objects/textures/Pirata_texture.dds");
+	GLuint TextureMenu = loadDDS("./objects/textures/Texture_Cubo.dds");
 
 	// Get a handle for our "myTextureSampler" uniform
 	GLuint TextureID  = glGetUniformLocation(programID, "myTextureSampler");
@@ -216,12 +217,21 @@ int main( void )
 	std::vector<glm::vec3> normalsMesa;
 	bool resMesa = loadOBJ("objects/mesa.obj", verticesMesa, uvsMesa, normalsMesa);
 
+	// MENU
+	std::vector<glm::vec3> verticesMenu;
+	std::vector<glm::vec2> uvsMenu;
+	std::vector<glm::vec3> normalsMenu;
+	bool resMenu = loadOBJ("objects/Menu.obj", verticesMenu, uvsMenu, normalsMenu);
+
 	// Get a handle for our "LightPosition" uniform
 	glUseProgram(programID);
 	GLuint LightID = glGetUniformLocation(programID, "LightPosition_worldspace");
 	GLuint LightColorID = glGetUniformLocation(programID, "LightColor");
 	GLuint LightPowerID = glGetUniformLocation(programID, "LightPower");
 
+
+	// decide se deve renderizar o Menu ou não
+	bool shouldDrawMenu = true;
 	do{
 
 		// Clear the screen
@@ -231,7 +241,7 @@ int main( void )
 		glUseProgram(programID);
 
 		// Compute the MVP matrix from keyboard and mouse input
-		computeMatricesFromInputs();
+		computeMatricesFromInputs(&shouldDrawMenu);
 		glm::mat4 ProjectionMatrix = getProjectionMatrix();
 		glm::mat4 ViewMatrix = getViewMatrix();
 
@@ -308,6 +318,26 @@ int main( void )
 
 		draw(vertexbuffer, uvbuffer, normalbuffer, verticesPirata, uvsPirata, normalsPirata);
 		// END PIRATA
+
+		if (shouldDrawMenu) {
+			// MENU
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, TextureMenu);
+
+			// BUT the Model matrix is different (and the MVP too)
+			glm::mat4 ModelMatrixMenu = glm::mat4(1.0);
+			ModelMatrixMenu = glm::translate(ModelMatrixMenu, glm::vec3(0.0f, 3.5f, 27.0f));
+			ModelMatrixMenu = glm::rotate(ModelMatrixMenu, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+			glm::mat4 MVPMenu = ProjectionMatrix * ViewMatrix * ModelMatrixMenu;
+			// Send our transformation to the currently bound shader, 
+			// in the "MVP" uniform
+			glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVPMenu[0][0]);
+			glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &ModelMatrixMenu[0][0]);
+
+			draw(vertexbuffer, uvbuffer, normalbuffer, verticesMenu, uvsMenu, normalsMenu);
+			// END MENU
+		}
+		
 
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
