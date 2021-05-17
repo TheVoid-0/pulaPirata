@@ -146,7 +146,7 @@ int main( void )
 	// Load the texture
 	//GLuint Texture = loadDDS("uvmap.DDS");
 	GLuint Texture = loadDDS("./objects/textures/Mesa_texture.dds");
-	GLuint TextureEspada = loadDDS("./objects/textures/EspadaAzul.dds");
+	GLuint TextureEspada = loadDDS("./objects/textures/Espada_texture.dds");
 	GLuint TextureBarril = loadDDS("./objects/textures/Barril_texture.dds");
 	GLuint TexturePirata = loadDDS("./objects/textures/Pirata_texture.dds");
 	GLuint TextureMenu = loadDDS("./objects/textures/Texture_Cubo.dds");

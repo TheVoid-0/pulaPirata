@@ -52,11 +52,17 @@ float horizontalAngle4 = 3.14f;
 float verticalAngle4 = -10.0f * 3.14f / 180.0f;
 float initialFoV4 = 45.0f;
 
+// CAMERA MENU
+glm::vec3 positionMenu = glm::vec3(0, 5, 43.5);
+float horizontalAngleMenu = 3.14f;
+float verticalAngleMenu = 0.0f * 3.14f / 180.0f;
+float initialFoVMenu = 45.0f;
+
 float speed = 3.0f; // 3 units / second
 float mouseSpeed = 0.005f;
 
 bool swapProjectionFlag = true;
-int camera = 1; // 1, 2, 3 ou 4
+int camera = 5; // 1, 2, 3, 4 ou 5
 
 // TODO: refatorar esse código veio para um de verdade com objetos para a entrega final
 
@@ -143,10 +149,16 @@ void calculateProjectionAndViewMatrices(glm::vec3 *position, float *horizontalAn
 			camera = 3;
 		}
 	}
+	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+
+		if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_RELEASE) {
+			camera = 4;
+		}
+	}
 	if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS) {
 
 		if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_RELEASE) {
-			camera = 4;
+			camera = 1;
 		}
 	}
 	
@@ -186,7 +198,7 @@ void calculateProjectionAndViewMatrices(glm::vec3 *position, float *horizontalAn
 	
 }
 
-void computeMatricesFromInputs(){
+void computeMatricesFromInputs(bool *shouldDrawMenu){
 
 	// glfwGetTime is called only once, the first time this function is called
 	static double lastTime = glfwGetTime();
@@ -203,15 +215,23 @@ void computeMatricesFromInputs(){
 	{
 	case 1:
 		calculateProjectionAndViewMatrices(&position, &horizontalAngle, &verticalAngle, &initialFoV, &deltaTime);
+		*shouldDrawMenu = false;
 		break;
 	case 2:
 		calculateProjectionAndViewMatrices(&position2, &horizontalAngle2, &verticalAngle2, &initialFoV2, &deltaTime);
+		*shouldDrawMenu = false;
 		break;
 	case 3:
 		calculateProjectionAndViewMatrices(&position3, &horizontalAngle3, &verticalAngle3, &initialFoV3, &deltaTime);
+		*shouldDrawMenu = false;
 		break;
 	case 4:
 		calculateProjectionAndViewMatrices(&position4, &horizontalAngle4, &verticalAngle4, &initialFoV4, &deltaTime);
+		*shouldDrawMenu = false;
+		break;
+	case 5:
+		calculateProjectionAndViewMatrices(&positionMenu, &horizontalAngleMenu, &verticalAngleMenu, &initialFoVMenu, &deltaTime);
+		*shouldDrawMenu = true;
 		break;
 	default:
 		break;
