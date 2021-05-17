@@ -66,7 +66,7 @@ int camera = 5; // 1, 2, 3, 4 ou 5
 
 // TODO: refatorar esse código veio para um de verdade com objetos para a entrega final
 
-void calculateProjectionAndViewMatrices(glm::vec3 *position, float *horizontalAngle, float *verticalAngle, float *initialFoV, float *deltaTime ){
+void calculateProjectionAndViewMatrices(glm::vec3 *position, float *horizontalAngle, float *verticalAngle, float *initialFoV, float *deltaTime, bool shouldLockCamera ){
 	
 	
 
@@ -78,8 +78,10 @@ void calculateProjectionAndViewMatrices(glm::vec3 *position, float *horizontalAn
 	glfwSetCursorPos(window, 1024 / 2, 768 / 2);
 
 	// Compute new orientation
-	*horizontalAngle += mouseSpeed * float(1024 / 2 - xpos);
-	*verticalAngle += mouseSpeed * float(768 / 2 - ypos);
+	if (!shouldLockCamera) {
+		*horizontalAngle += mouseSpeed * float(1024 / 2 - xpos);
+		*verticalAngle += mouseSpeed * float(768 / 2 - ypos);
+	}
 	
 	// Direction : Spherical coordinates to Cartesian coordinates conversion
 	glm::vec3 direction(
@@ -214,24 +216,24 @@ void computeMatricesFromInputs(bool *shouldDrawMenu){
 	switch (camera)
 	{
 	case 1:
-		calculateProjectionAndViewMatrices(&position, &horizontalAngle, &verticalAngle, &initialFoV, &deltaTime);
 		*shouldDrawMenu = false;
+		calculateProjectionAndViewMatrices(&position, &horizontalAngle, &verticalAngle, &initialFoV, &deltaTime, *shouldDrawMenu);
 		break;
 	case 2:
-		calculateProjectionAndViewMatrices(&position2, &horizontalAngle2, &verticalAngle2, &initialFoV2, &deltaTime);
 		*shouldDrawMenu = false;
+		calculateProjectionAndViewMatrices(&position2, &horizontalAngle2, &verticalAngle2, &initialFoV2, &deltaTime, *shouldDrawMenu);
 		break;
 	case 3:
-		calculateProjectionAndViewMatrices(&position3, &horizontalAngle3, &verticalAngle3, &initialFoV3, &deltaTime);
 		*shouldDrawMenu = false;
+		calculateProjectionAndViewMatrices(&position3, &horizontalAngle3, &verticalAngle3, &initialFoV3, &deltaTime, *shouldDrawMenu);
 		break;
 	case 4:
-		calculateProjectionAndViewMatrices(&position4, &horizontalAngle4, &verticalAngle4, &initialFoV4, &deltaTime);
 		*shouldDrawMenu = false;
+		calculateProjectionAndViewMatrices(&position4, &horizontalAngle4, &verticalAngle4, &initialFoV4, &deltaTime, *shouldDrawMenu);
 		break;
 	case 5:
-		calculateProjectionAndViewMatrices(&positionMenu, &horizontalAngleMenu, &verticalAngleMenu, &initialFoVMenu, &deltaTime);
 		*shouldDrawMenu = true;
+		calculateProjectionAndViewMatrices(&positionMenu, &horizontalAngleMenu, &verticalAngleMenu, &initialFoVMenu, &deltaTime, *shouldDrawMenu);
 		break;
 	default:
 		break;
