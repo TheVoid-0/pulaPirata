@@ -28,6 +28,10 @@ Obj::Obj(char *objFilePath, char *ddsTexturePath)
 	}
 }
 
+Obj::Obj()
+{
+}
+
 void Obj::draw()
 {
 	// Um draw somente a partir dos vertices e a textura, utilizando os uniforms que já estão "bindados" no shader (se algum tiver sido)

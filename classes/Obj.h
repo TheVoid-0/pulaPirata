@@ -24,6 +24,7 @@ protected:
 
 public:
 	Obj(char *objFilePath, char *ddsTexturePath);
+	Obj();
 	void draw();
 	void draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, Light light);
 	void translate(glm::vec3 xyz);

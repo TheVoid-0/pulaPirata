@@ -1,5 +1,12 @@
 #include "Match.h"
 
+
+Match::Match()
+{
+	this->startGame();
+}
+
+
 void Match::startGame()
 {
 	this->turn = 0;
@@ -15,6 +22,7 @@ void Match::startGame()
 	this->lights[1] = Light(glm::vec3(4, 4, -4), glm::vec3(0.5, 0.5, 0), 50.0f);
 
 	// TODO: colocar a localização de cada buraco manualmente :(
+	// sem a construção dos holes[] o programa vai crashar
 	// e decidir se será uma trap ou não
 }
 
@@ -90,7 +98,7 @@ void Match::draw()
 
 	for each (Player player in this->players)
 	{
-		player.draw(this->projectionMatrix, this->viewMatrix, this->lights[0], this->holes[this->indexSelected]);
+		//player.draw(this->projectionMatrix, this->viewMatrix, this->lights[0], this->holes[this->indexSelected]);
 	}
 
 	if (this->shouldDrawMenu) {

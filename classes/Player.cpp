@@ -1,11 +1,20 @@
 #include "Player.h"
 
+
 Player::Player(int hp, int id)
 {
 	this->hp = hp;
 	this->id = id;
 	this->swordsUsed = 0;
+	// TODO: instanciar todas as espadas e colocar elas em algum lugar na mesa.
+	for each (Obj sword in this->swords)
+	{
+		sword = Obj("objects/espada.obj", "./objects/textures/Espada_texture.dds");
+	}
+}
 
+Player::Player()
+{
 }
 
 void Player::draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, Light light, Hole hole)

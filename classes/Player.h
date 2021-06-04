@@ -11,6 +11,7 @@ private:
 
 public:
 	Player(int hp, int id);
+	Player();
 	void draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, Light light, Hole hole);
 };
 
