@@ -2,7 +2,7 @@
 #include <iostream>
 #include <common/objloader.hpp>
 #include <common\texture.hpp>
-#include <pula_pirata/programHandler.hpp>
+#include <pulaPirata/programHandler.hpp>
 
 Obj::Obj(char *objFilePath, char *ddsTexturePath)
 {

@@ -20,9 +20,9 @@ using namespace glm;
 #include <common/controls.hpp>
 #include <common/objloader.hpp>
 
-#include <pula_pirata/programHandler.hpp>
-#include <pula_pirata/classes/Obj.h>
-#include <pula_pirata/classes/Light.h>
+#include <pulaPirata/programHandler.hpp>
+#include <pulaPirata/classes/Obj.h>
+#include <pulaPirata/classes/Light.h>
 
 
 // TODO: fazer função inicializar os buffers e setar seus atributos apenas uma vez ou trocar os dados e sempre utilizar o mesmo buffer (estou tentando com um buffer para cada objeto)
@@ -143,9 +143,13 @@ int main( void )
 	Obj pirata("objects/pirata.obj","./objects/textures/Pirata_texture.dds");
 	Obj menu("objects/Menu.obj","./objects/textures/Texture_Cubo.dds");
 
+	float x = -1.25f;
+	float y = -0.3f;
+	float z = 0.65f;
 
-	espada.translate(glm::vec3(-1.3f, 0.0f, 0.0f));
-	espada.rotate(90.0f, glm::vec3(0.0f, 1.0f, 1.0f));
+	espada.translate(glm::vec3(x, y, z));
+	espada.rotate(-5.0f, glm::vec3(0.0f, 1.0f, 1.0f));
+	espada.rotate(32.0f, glm::vec3(0.0f, 1.0f, 0.0f));
 
 	pirata.translate(glm::vec3(0.0f, 2.2f, 0.0f));
 
@@ -155,6 +159,9 @@ int main( void )
 	// LUZES
 	Light luzAmbiente(glm::vec3(4, 4, 4), glm::vec3(1, 1, 1), 50.0f);
 	Light luzPirata(glm::vec3(4, 4, -4), glm::vec3(0.5, 0.5, 0), 50.0f);
+
+	float novoX = 0.0f;
+	bool entra = false;
 
 	// decide se deve renderizar o Menu ou não
 	bool shouldDrawMenu = true;
@@ -171,7 +178,6 @@ int main( void )
 		glm::mat4 ProjectionMatrix = getProjectionMatrix();
 		glm::mat4 ViewMatrix = getViewMatrix();
 
-
 		// MESA
 		mesa.draw(ProjectionMatrix, ViewMatrix, luzAmbiente);
 		// END MESA
@@ -184,6 +190,29 @@ int main( void )
 		espada.draw(ProjectionMatrix, ViewMatrix, luzAmbiente);
 		// END ESPADA
 
+		if (!entra) {
+			novoX -= 0.001;
+			printf("%f\n", novoX);
+
+			espada.translate(glm::vec3(novoX, 0.0f, 0.0f));
+
+			if (novoX < -0.05) {
+				entra = true;
+				novoX = 0.0;
+			}
+		}
+		else {
+			novoX += 0.001;
+			printf("%f\n", novoX);
+
+			espada.translate(glm::vec3(novoX, 0.0f, 0.0f));
+
+			if (novoX >= 0.05) {
+				entra = false;
+				novoX = 0.0;
+			}
+		}
+		
 		// PIRATA
 		pirata.draw(ProjectionMatrix, ViewMatrix, luzPirata);
 		// END PIRATA
@@ -193,7 +222,6 @@ int main( void )
 			menu.draw(ProjectionMatrix, ViewMatrix, luzAmbiente);
 			// END MENU
 		}
-		
 
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);

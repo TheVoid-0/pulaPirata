@@ -6,7 +6,7 @@ using namespace glm;
 #include <vector>
 #include <GL\glew.h>
 
-#include <pula_pirata/classes/Light.h>
+#include <pulaPirata/classes/Light.h>
 
 class Obj
 {
