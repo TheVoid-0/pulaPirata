@@ -132,8 +132,6 @@ int main( void )
 	glGenVertexArrays(1, &VertexArrayID);
 	glBindVertexArray(VertexArrayID);
 
-	// Create and compile our GLSL program from the shaders
-
 	programHandler();
 	
 	// OBJETOS
@@ -166,32 +164,18 @@ int main( void )
 		// Use our shader
 		glUseProgram(getProgramId());
 
-		// Compute the MVP matrix from keyboard and mouse input
 		computeMatricesFromInputs(&shouldDrawMenu);
 		glm::mat4 ProjectionMatrix = getProjectionMatrix();
 		glm::mat4 ViewMatrix = getViewMatrix();
 
 
-		// MESA
 		mesa.draw(ProjectionMatrix, ViewMatrix, luzAmbiente);
-		// END MESA
-
-		// BARRIL
 		barril.draw();
-		// END BARRIL
-
-		// ESPADA
 		espada.draw(ProjectionMatrix, ViewMatrix, luzAmbiente);
-		// END ESPADA
-
-		// PIRATA
 		pirata.draw(ProjectionMatrix, ViewMatrix, luzPirata);
-		// END PIRATA
 
 		if (shouldDrawMenu) {
-			// MENU
 			menu.draw(ProjectionMatrix, ViewMatrix, luzAmbiente);
-			// END MENU
 		}
 		
 

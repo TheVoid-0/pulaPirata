@@ -137,17 +137,15 @@ void Obj::draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, Light light)
 
 void Obj::translate(glm::vec3 xyz)
 {
-	this->lastModelMatrix = modelMatrix;
 	this->modelMatrix = glm::translate(this->modelMatrix, xyz);
 }
 
-void Obj::rotate(GLfloat degrees, glm::vec3 xyz)
+void Obj::rotate(GLfloat angle, glm::vec3 xyz)
 {
-	this->lastModelMatrix = modelMatrix;
-	this->modelMatrix = glm::rotate(this->modelMatrix, glm::radians(degrees), xyz);
+	this->modelMatrix = glm::rotate(this->modelMatrix, glm::radians(angle), xyz);
 }
 
-void Obj::undoLastModelChange()
+void Obj::resetModelMatrix()
 {
-	this->modelMatrix = this->lastModelMatrix;
+	this->modelMatrix = glm::mat4(1.0f);
 }

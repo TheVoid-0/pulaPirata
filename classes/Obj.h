@@ -17,7 +17,6 @@ protected:
 	// Por questões de praticidade cada objeto vai ficar limitado a somente uma textura;
 	GLuint texture;
 	glm::mat4 modelMatrix;
-	glm::mat4 lastModelMatrix;
 	// Por questões de teste vamos usar um buffer para cada objeto que guardará o conteúdo daquele objeto até o fim
 	GLuint vertexBuffer;
 	GLuint uvBuffer;
@@ -28,7 +27,7 @@ public:
 	void draw();
 	void draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, Light light);
 	void translate(glm::vec3 xyz);
-	void rotate(GLfloat degrees, glm::vec3 xyz);
-	void undoLastModelChange();
+	void rotate(GLfloat angle, glm::vec3 xyz);
 	//void scale();
+	void resetModelMatrix();
 };

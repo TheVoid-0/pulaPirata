@@ -150,6 +150,12 @@ add_executable(pula_pirata
 	pula_pirata/classes/Obj.h
 	pula_pirata/classes/Light.cpp
 	pula_pirata/classes/Light.h
+	pula_pirata/classes/Player.h
+	pula_pirata/classes/Player.cpp
+	pula_pirata/classes/Match.h
+	pula_pirata/classes/Match.cpp
+	pula_pirata/classes/Hole.cpp
+	pula_pirata/classes/Hole.h
 	common/shader.cpp
 	common/shader.hpp
 	common/controls.cpp
