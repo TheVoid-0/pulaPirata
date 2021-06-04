@@ -144,6 +144,12 @@ target_link_libraries(gato
 # pula_pirata
 add_executable(pula_pirata
 	pula_pirata/pula_pirata.cpp
+	pula_pirata/programHandler.cpp
+	pula_pirata/programHandler.hpp
+	pula_pirata/classes/Obj.cpp
+	pula_pirata/classes/Obj.h
+	pula_pirata/classes/Light.cpp
+	pula_pirata/classes/Light.h
 	common/shader.cpp
 	common/shader.hpp
 	common/controls.cpp

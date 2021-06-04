@@ -15,24 +15,21 @@ GLFWwindow* window;
 #include <glm/gtc/matrix_transform.hpp>
 using namespace glm;
 
-#include <./common/shader.hpp>
+#include <common/shader.hpp>
 #include <common/texture.hpp>
 #include <common/controls.hpp>
 #include <common/objloader.hpp>
 
+#include <pula_pirata/programHandler.hpp>
+#include <pula_pirata/classes/Obj.h>
+#include <pula_pirata/classes/Light.h>
 
-// TODO: fazer função inicializar os buffers e setar seus atributos apenas uma vez
-// TODO: separar o código em classes com propriedades de cada objeto
+
+// TODO: fazer função inicializar os buffers e setar seus atributos apenas uma vez ou trocar os dados e sempre utilizar o mesmo buffer (estou tentando com um buffer para cada objeto)
+// TODO: separar o código em classes com propriedades de cada objeto (estou tentando)
+// TODO: deletar todos os buffers e liberar as texturas da memória (Não é prioridade, funciona de qualquer jeito, só seria o mais correto)
 
 void draw(GLuint vertexbuffer, GLuint uvbuffer, GLuint normalbuffer, std::vector<glm::vec3> vertices, std::vector<glm::vec2> uvs, std::vector<glm::vec3> normals) {
-	// Load it into a VBO
-	//glGenBuffers(1, &vertexbuffer);
-	//glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-	//glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), &vertices[0], GL_STATIC_DRAW);
-
-	//glGenBuffers(1, &uvbuffer);
-	//glBindBuffer(GL_ARRAY_BUFFER, uvbuffer);
-	//glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs[0], GL_STATIC_DRAW);
 
 	// 1rst attribute buffer : vertices
 	glEnableVertexAttribArray(0);
@@ -136,99 +133,28 @@ int main( void )
 	glBindVertexArray(VertexArrayID);
 
 	// Create and compile our GLSL program from the shaders
-	GLuint programID = LoadShaders( "TransformVertexShader.vertexshader", "TextureFragmentShader.fragmentshader" );
 
-	// Get a handle for our "MVP" uniform
-	GLuint MatrixID = glGetUniformLocation(programID, "MVP");
-	GLuint ViewMatrixID = glGetUniformLocation(programID, "V");
-	GLuint ModelMatrixID = glGetUniformLocation(programID, "M");
-
-	// Load the texture
-	//GLuint Texture = loadDDS("uvmap.DDS");
-	GLuint Texture = loadDDS("./objects/textures/Mesa_texture.dds");
-	GLuint TextureEspada = loadDDS("./objects/textures/Espada_texture.dds");
-	GLuint TextureBarril = loadDDS("./objects/textures/Barril_texture.dds");
-	GLuint TexturePirata = loadDDS("./objects/textures/Pirata_texture.dds");
-	GLuint TextureMenu = loadDDS("./objects/textures/Texture_Cubo.dds");
-
-	// Get a handle for our "myTextureSampler" uniform
-	GLuint TextureID  = glGetUniformLocation(programID, "myTextureSampler");
-
-	// BARRIL
-	// Read our .obj file
-	std::vector<glm::vec3> vertices;
-	std::vector<glm::vec2> uvs;
-	std::vector<glm::vec3> normals;
-	bool res = loadOBJ("objects/barril.obj", vertices, uvs, normals);
+	programHandler();
 	
-	// Load it into a VBO
-	GLuint vertexbuffer;
-	glGenBuffers(1, &vertexbuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), &vertices[0], GL_STATIC_DRAW);
+	// OBJETOS
+	Obj mesa("objects/mesa.obj", "./objects/textures/Mesa_texture.dds");
+	Obj espada("objects/espada.obj","./objects/textures/Espada_texture.dds");
+	Obj barril("objects/barril.obj","./objects/textures/Barril_texture.dds");
+	Obj pirata("objects/pirata.obj","./objects/textures/Pirata_texture.dds");
+	Obj menu("objects/Menu.obj","./objects/textures/Texture_Cubo.dds");
 
-	GLuint uvbuffer;
-	glGenBuffers(1, &uvbuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, uvbuffer);
-	glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs[0], GL_STATIC_DRAW);
 
-	GLuint normalbuffer;
-	glGenBuffers(1, &normalbuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, normalbuffer);
-	glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), &normals[0], GL_STATIC_DRAW);
+	espada.translate(glm::vec3(-1.3f, 0.0f, 0.0f));
+	espada.rotate(90.0f, glm::vec3(0.0f, 1.0f, 1.0f));
 
-	// ESPADA
-	std::vector<glm::vec3> verticesEspada;
-	std::vector<glm::vec2> uvsEspada;
-	std::vector<glm::vec3> normalsEspada;
-	bool resEspada = loadOBJ("objects/espada.obj", verticesEspada, uvsEspada, normalsEspada);
-	
-	// Load it into a VBO
-	GLuint vertexbufferEspada;
-	glGenBuffers(1, &vertexbufferEspada);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbufferEspada);
-	glBufferData(GL_ARRAY_BUFFER, verticesEspada.size() * sizeof(glm::vec3), &verticesEspada[0], GL_STATIC_DRAW);
+	pirata.translate(glm::vec3(0.0f, 2.2f, 0.0f));
 
-	GLuint uvbufferEspada;
-	glGenBuffers(1, &uvbufferEspada);
-	glBindBuffer(GL_ARRAY_BUFFER, uvbufferEspada);
-	glBufferData(GL_ARRAY_BUFFER, uvsEspada.size() * sizeof(glm::vec2), &uvsEspada[0], GL_STATIC_DRAW);
+	menu.translate(glm::vec3(0.0f, 3.5f, 27.0f));
+	menu.rotate(180.0f, glm::vec3(0.0f, 0.0f, 1.0f));
 
-	// PIRATA
-	std::vector<glm::vec3> verticesPirata;
-	std::vector<glm::vec2> uvsPirata;
-	std::vector<glm::vec3> normalsPirata;
-	bool resPirata = loadOBJ("objects/pirata.obj", verticesPirata, uvsPirata, normalsPirata);
-
-	// Load it into a VBO
-	GLuint vertexbufferPirata;
-	glGenBuffers(1, &vertexbufferPirata);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbufferPirata);
-	glBufferData(GL_ARRAY_BUFFER, verticesPirata.size() * sizeof(glm::vec3), &verticesPirata[0], GL_STATIC_DRAW);
-
-	GLuint uvbufferPirata;
-	glGenBuffers(1, &uvbufferPirata);
-	glBindBuffer(GL_ARRAY_BUFFER, uvbufferPirata);
-	glBufferData(GL_ARRAY_BUFFER, uvsPirata.size() * sizeof(glm::vec2), &uvsPirata[0], GL_STATIC_DRAW);
-
-	// MESA
-	std::vector<glm::vec3> verticesMesa;
-	std::vector<glm::vec2> uvsMesa;
-	std::vector<glm::vec3> normalsMesa;
-	bool resMesa = loadOBJ("objects/mesa.obj", verticesMesa, uvsMesa, normalsMesa);
-
-	// MENU
-	std::vector<glm::vec3> verticesMenu;
-	std::vector<glm::vec2> uvsMenu;
-	std::vector<glm::vec3> normalsMenu;
-	bool resMenu = loadOBJ("objects/Menu.obj", verticesMenu, uvsMenu, normalsMenu);
-
-	// Get a handle for our "LightPosition" uniform
-	glUseProgram(programID);
-	GLuint LightID = glGetUniformLocation(programID, "LightPosition_worldspace");
-	GLuint LightColorID = glGetUniformLocation(programID, "LightColor");
-	GLuint LightPowerID = glGetUniformLocation(programID, "LightPower");
-
+	// LUZES
+	Light luzAmbiente(glm::vec3(4, 4, 4), glm::vec3(1, 1, 1), 50.0f);
+	Light luzPirata(glm::vec3(4, 4, -4), glm::vec3(0.5, 0.5, 0), 50.0f);
 
 	// decide se deve renderizar o Menu ou não
 	bool shouldDrawMenu = true;
@@ -238,103 +164,33 @@ int main( void )
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// Use our shader
-		glUseProgram(programID);
+		glUseProgram(getProgramId());
 
 		// Compute the MVP matrix from keyboard and mouse input
 		computeMatricesFromInputs(&shouldDrawMenu);
 		glm::mat4 ProjectionMatrix = getProjectionMatrix();
 		glm::mat4 ViewMatrix = getViewMatrix();
 
+
 		// MESA
-		glm::mat4 ModelMatrix = glm::mat4(1.0);
-		glm::mat4 MVP = ProjectionMatrix * ViewMatrix * ModelMatrix;
-
-		// Send our transformation to the currently bound shader, 
-		// in the "MVP" uniform
-		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP[0][0]);
-		glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &ModelMatrix[0][0]);
-		glUniformMatrix4fv(ViewMatrixID, 1, GL_FALSE, &ViewMatrix[0][0]);
-
-		// Cria uma posição para a luz e envia aos shaders
-		glm::vec3 lightPos = glm::vec3(4, 4, 4);
-		glUniform3f(LightID, lightPos.x, lightPos.y, lightPos.z);
-
-		// send light color and power to respective uniforms on fragmentshader
-		glm::vec3 lightColor = glm::vec3(1, 1, 1);
-		glUniform3f(LightColorID, lightColor.x, lightColor.y, lightColor.z);
-		glUniform1f(LightPowerID, 50.0f);
-
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, Texture);
-
-		draw(vertexbuffer, uvbuffer, normalbuffer, verticesMesa, uvsMesa, normalsMesa);
+		mesa.draw(ProjectionMatrix, ViewMatrix, luzAmbiente);
 		// END MESA
 
 		// BARRIL
-		// Bind our texture in Texture Unit 0
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, TextureBarril);
-		// Set our "myTextureSampler" sampler to use Texture Unit 0
-		glUniform1i(TextureID, 0);
-
-		draw(vertexbuffer, uvbuffer, normalbuffer, vertices, uvs, normals);
+		barril.draw();
 		// END BARRIL
 
 		// ESPADA
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, TextureEspada);
-
-		// BUT the Model matrix is different (and the MVP too)
-		glm::mat4 ModelMatrix2 = glm::mat4(1.0);
-		ModelMatrix2 = glm::translate(ModelMatrix2, glm::vec3(-1.3f, 0.0f, 0.0f));
-		//ModelMatrix2 = glm::rotate(ModelMatrix2, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 1.0f));
-		glm::mat4 MVP2 = ProjectionMatrix * ViewMatrix * ModelMatrix2;
-		// Send our transformation to the currently bound shader, 
-		// in the "MVP" uniform
-		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP2[0][0]);
-		glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &ModelMatrix2[0][0]);
-
-		draw(vertexbuffer, uvbuffer, normalbuffer, verticesEspada, uvsEspada, normalsEspada);
+		espada.draw(ProjectionMatrix, ViewMatrix, luzAmbiente);
 		// END ESPADA
 
 		// PIRATA
-		glm::mat4 ModelMatrix3 = glm::mat4(1.0);
-		ModelMatrix3 = glm::translate(ModelMatrix3, glm::vec3(0.0f, 2.2f, 0.0f));
-		glm::mat4 MVP3 = ProjectionMatrix * ViewMatrix * ModelMatrix3;
-		glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVP3[0][0]);
-		glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &ModelMatrix3[0][0]);
-
-		// Cria uma posição para a luz e envia aos shaders
-		glm::vec3 lightPosPirata = glm::vec3(4, 4, -4);
-		glUniform3f(LightID, lightPosPirata.x, lightPosPirata.y, lightPosPirata.z);
-
-		// send light color and power to respective uniforms on fragmentshader
-		glm::vec3 lightColorPirata = glm::vec3(0.5, 0.5, 0);
-		glUniform3f(LightColorID, lightColorPirata.x, lightColorPirata.y, lightColorPirata.z);
-		glUniform1f(LightPowerID, 50.0f);
-
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, TexturePirata);
-
-		draw(vertexbuffer, uvbuffer, normalbuffer, verticesPirata, uvsPirata, normalsPirata);
+		pirata.draw(ProjectionMatrix, ViewMatrix, luzPirata);
 		// END PIRATA
 
 		if (shouldDrawMenu) {
 			// MENU
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, TextureMenu);
-
-			// BUT the Model matrix is different (and the MVP too)
-			glm::mat4 ModelMatrixMenu = glm::mat4(1.0);
-			ModelMatrixMenu = glm::translate(ModelMatrixMenu, glm::vec3(0.0f, 3.5f, 27.0f));
-			ModelMatrixMenu = glm::rotate(ModelMatrixMenu, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-			glm::mat4 MVPMenu = ProjectionMatrix * ViewMatrix * ModelMatrixMenu;
-			// Send our transformation to the currently bound shader, 
-			// in the "MVP" uniform
-			glUniformMatrix4fv(MatrixID, 1, GL_FALSE, &MVPMenu[0][0]);
-			glUniformMatrix4fv(ModelMatrixID, 1, GL_FALSE, &ModelMatrixMenu[0][0]);
-
-			draw(vertexbuffer, uvbuffer, normalbuffer, verticesMenu, uvsMenu, normalsMenu);
+			menu.draw(ProjectionMatrix, ViewMatrix, luzAmbiente);
 			// END MENU
 		}
 		
@@ -352,11 +208,11 @@ int main( void )
 		   glfwWindowShouldClose(window) == 0 );
 
 	// Cleanup VBO and shader
-	glDeleteBuffers(1, &vertexbuffer);
-	glDeleteBuffers(1, &uvbuffer);
-	glDeleteProgram(programID);
-	glDeleteTextures(1, &Texture);
-	glDeleteVertexArrays(1, &VertexArrayID);
+	//glDeleteBuffers(1, &vertexbuffer);
+	//glDeleteBuffers(1, &uvbuffer);
+	//glDeleteProgram(programID);
+	//glDeleteTextures(1, &Texture);
+	//glDeleteVertexArrays(1, &VertexArrayID);
 
 	// Close OpenGL window and terminate GLFW
 	glfwTerminate();
