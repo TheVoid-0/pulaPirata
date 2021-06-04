@@ -3,8 +3,6 @@
 #include <glm/glm.hpp>
 #include <vector>
 
-#include <common/controls.hpp>
-
 #include <pula_pirata/classes/Player.h>
 #include <pula_pirata/classes/Hole.h>
 #include <pula_pirata/classes/Obj.h>
@@ -23,7 +21,7 @@ private:
 	Obj table;
 	Obj pirate;
 	Obj menu;
-	bool shouldDrawMenu;
+	bool drawMenu;
 	glm::mat4 projectionMatrix;
 	glm::mat4 viewMatrix;
 	Light lights[2];
@@ -32,11 +30,17 @@ private:
 
 public:
 	Match();
+	void setProjectionMatrix(glm::mat4 projectionMatrix);
+	void setViewMatrix(glm::mat4 viewMatrix);
+	glm::mat4 getProjectionMatrix();
+	glm::mat4 getViewMatrix();
 	void startGame();
 	void nextHole();
 	void previousHole();
 	void selectHole();
 	void draw();
+	void setShouldDrawMenu(bool shouldDrawMenu);
+	bool shouldDrawMenu();
 
 };
 

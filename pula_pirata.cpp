@@ -31,49 +31,6 @@ using namespace glm;
 // TODO: separar o código em classes com propriedades de cada objeto (estou tentando)
 // TODO: deletar todos os buffers e liberar as texturas da memória (Não é prioridade, funciona de qualquer jeito, só seria o mais correto)
 
-void draw(GLuint vertexbuffer, GLuint uvbuffer, GLuint normalbuffer, std::vector<glm::vec3> vertices, std::vector<glm::vec2> uvs, std::vector<glm::vec3> normals) {
-
-	// 1rst attribute buffer : vertices
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-	glVertexAttribPointer(
-		0,                  // attribute
-		3,                  // size
-		GL_FLOAT,           // type
-		GL_FALSE,           // normalized?
-		0,                  // stride
-		(void*)0            // array buffer offset
-	);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), &vertices[0], GL_STATIC_DRAW);
-
-	// 2nd attribute buffer : UVs
-	glEnableVertexAttribArray(1);
-	glBindBuffer(GL_ARRAY_BUFFER, uvbuffer);
-	glVertexAttribPointer(
-		1,                                // attribute
-		2,                                // size
-		GL_FLOAT,                         // type
-		GL_FALSE,                         // normalized?
-		0,                                // stride
-		(void*)0                          // array buffer offset
-	);
-	glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(glm::vec2), &uvs[0], GL_STATIC_DRAW);
-
-	// 3rd attribute buffer : normals
-	glEnableVertexAttribArray(2);
-	glBindBuffer(GL_ARRAY_BUFFER, normalbuffer);
-	glVertexAttribPointer(
-		2,                                // attribute
-		3,                                // size
-		GL_FLOAT,                         // type
-		GL_FALSE,                         // normalized?
-		0,                                // stride
-		(void*)0                          // array buffer offset
-	);
-	glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(glm::vec3), &normals[0], GL_STATIC_DRAW);
-
-	glDrawArrays(GL_TRIANGLES, 0, vertices.size());
-}
 
 int main( void )
 {
@@ -175,7 +132,7 @@ int main( void )
 		// Use our shader
 		glUseProgram(getProgramId());
 
-		//computeMatricesFromInputs(&shouldDrawMenu);
+		computeMatricesFromInputs(&match);
 		//glm::mat4 ProjectionMatrix = getProjectionMatrix();
 		//glm::mat4 ViewMatrix = getViewMatrix();
 		match.draw();

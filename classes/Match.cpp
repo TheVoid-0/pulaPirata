@@ -6,6 +6,26 @@ Match::Match()
 	this->startGame();
 }
 
+void Match::setProjectionMatrix(glm::mat4 projectionMatrix)
+{
+	this->projectionMatrix = projectionMatrix;
+}
+
+void Match::setViewMatrix(glm::mat4 viewMatrix)
+{
+	this->viewMatrix = viewMatrix;
+}
+
+glm::mat4 Match::getProjectionMatrix()
+{
+	return this->projectionMatrix;
+}
+
+glm::mat4 Match::getViewMatrix()
+{
+	return this->viewMatrix;
+}
+
 
 void Match::startGame()
 {
@@ -88,9 +108,9 @@ void Match::draw()
 {
 	// TODO: colocar os comandos de mexer/selecionar e escolher um buraco no controls.cpp
 	// TODO: passar o computeMatrices para fora e passar uma instancia do Match como parâmetro para poder chamar os métodos de controle?
-	computeMatricesFromInputs(&this->shouldDrawMenu);
-	this->projectionMatrix = getProjectionMatrix();
-	this->viewMatrix = getViewMatrix();
+	//computeMatricesFromInputs(&this->shouldDrawMenu);
+	//this->projectionMatrix = getProjectionMatrix();
+	//this->viewMatrix = getViewMatrix();
 
 	this->table.draw(this->projectionMatrix, this->viewMatrix, this->lights[0]);
 	this->barrel.draw();
@@ -101,9 +121,19 @@ void Match::draw()
 		//player.draw(this->projectionMatrix, this->viewMatrix, this->lights[0], this->holes[this->indexSelected]);
 	}
 
-	if (this->shouldDrawMenu) {
+	if (this->drawMenu) {
 		this->menu.draw(this->projectionMatrix, this->viewMatrix, this->lights[0]);
 	}
+}
+
+void Match::setShouldDrawMenu(bool shouldDrawMenu)
+{
+	this->drawMenu = shouldDrawMenu;
+}
+
+bool Match::shouldDrawMenu()
+{
+	return this->drawMenu;
 }
 
 void Match::setInitialPosition()
