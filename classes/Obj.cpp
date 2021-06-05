@@ -153,3 +153,8 @@ void Obj::resetModelMatrix()
 {
 	this->modelMatrix = glm::mat4(1.0f);
 }
+
+glm::mat4 Obj::getModelMatrix()
+{
+	return this->modelMatrix;
+}

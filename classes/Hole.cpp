@@ -1,5 +1,18 @@
 #include "Hole.h"
 
+Hole::Hole()
+{
+}
+
+Hole::Hole(glm::vec3 locationXyz, GLfloat yAngle)
+{
+	this->xyz = locationXyz;
+	this->yAngle = yAngle;
+	this->swordInPosition = false;
+	this->playerId = 0;
+	this->trap = false;
+}
+
 void Hole::setLocation(glm::vec3 xyz, GLfloat yAngle)
 {
 	this->xyz = xyz;
@@ -27,6 +40,16 @@ bool Hole::isTaken()
 		return false;
 	}
 	return true;
+}
+
+bool Hole::isSwordInPosition()
+{
+	return this->swordInPosition;
+}
+
+void Hole::setIsSwordInPosition(bool isSwordInPoisition)
+{
+	this->swordInPosition = isSwordInPoisition;
 }
 
 glm::vec3 Hole::getLocation()

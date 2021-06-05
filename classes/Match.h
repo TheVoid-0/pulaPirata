@@ -25,8 +25,10 @@ private:
 	glm::mat4 projectionMatrix;
 	glm::mat4 viewMatrix;
 	Light lights[2];
+	bool gameOver;
 
 	void setInitialPosition();
+	void nextSelectableHole();
 
 public:
 	Match();
@@ -41,6 +43,8 @@ public:
 	void draw();
 	void setShouldDrawMenu(bool shouldDrawMenu);
 	bool shouldDrawMenu();
+	bool isGameOver();
+	void restartGame();
 
 };
 

@@ -31,4 +31,5 @@ public:
 	void rotate(GLfloat angle, glm::vec3 xyz);
 	//void scale();
 	void resetModelMatrix();
+	glm::mat4 getModelMatrix();
 };

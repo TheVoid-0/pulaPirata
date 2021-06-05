@@ -11,5 +11,8 @@ public:
 	
 	Light();
 	Light(glm::vec3 position, glm::vec3 color, GLfloat power);
+	void setPosition(GLfloat x, GLfloat y, GLfloat z);
+	void setColor(GLfloat r, GLfloat g, GLfloat b);
+	void setPower(GLfloat power);
 };
 

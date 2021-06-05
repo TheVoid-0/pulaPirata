@@ -94,37 +94,8 @@ int main( void )
 	programHandler();
 
 	Match match;
-
-	// OBJETOS
-	//Obj mesa("objects/mesa.obj", "./objects/textures/Mesa_texture.dds");
 	Obj espada("objects/espada.obj","./objects/textures/Espada_texture.dds");
-	//Obj barril("objects/barril.obj","./objects/textures/Barril_texture.dds");
-	//Obj pirata("objects/pirata.obj","./objects/textures/Pirata_texture.dds");
-	//Obj menu("objects/Menu.obj","./objects/textures/Texture_Cubo.dds");
 
-	/*float x = -1.2f;
-	float y = 0.35f;
-	float z = 0.1f;
-
-	espada.translate(glm::vec3(x, y, z));
-	espada.rotate(-5.0f, glm::vec3(0.0f, 1.0f, 1.0f));
-	espada.rotate(10.0f, glm::vec3(0.0f, 1.0f, 0.0f));*/
-
-	//pirata.translate(glm::vec3(0.0f, 2.2f, 0.0f));
-
-	//menu.translate(glm::vec3(0.0f, 3.5f, 27.0f));
-	//menu.rotate(180.0f, glm::vec3(0.0f, 0.0f, 1.0f));
-
-	// LUZES
-	Light luzAmbiente(glm::vec3(4, 4, 4), glm::vec3(1, 1, 1), 50.0f);
-	//Light luzPirata(glm::vec3(4, 4, -4), glm::vec3(0.5, 0.5, 0), 50.0f);
-
-	/*espada.translate(glm::vec3(-1.7f, 0.0f, 0.0f));
-	float novoX = 0.0f;
-	bool entra = true;*/
-
-	// decide se deve renderizar o Menu ou não
-	bool shouldDrawMenu = true;
 	do{
 
 		// Clear the screen
@@ -134,13 +105,7 @@ int main( void )
 		glUseProgram(getProgramId());
 
 		computeMatricesFromInputs(&match);
-		//glm::mat4 ProjectionMatrix = getProjectionMatrix();
-		//glm::mat4 ViewMatrix = getViewMatrix();
-		//computeMatricesFromInputs(&shouldDrawMenu);
 		match.draw();
-		//mesa.draw(ProjectionMatrix, ViewMatrix, luzAmbiente);
-		//barril.draw();
-		espada.draw(match.getProjectionMatrix(), match.getViewMatrix(), luzAmbiente);
 
 		
 		/*if (entra) {
