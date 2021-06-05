@@ -1,3 +1,6 @@
+// Include GLEW
+#include <GL/glew.h>
+
 // Include GLFW
 #include <GLFW/glfw3.h>
 extern GLFWwindow* window; // The "extern" keyword here is to access the variable "window" declared in tutorialXXX.cpp. This is a hack to keep the tutorials simple. Please avoid this.
@@ -66,7 +69,7 @@ int camera = 5; // 1, 2, 3, 4 ou 5
 
 // TODO: refatorar esse código veio para um de verdade com objetos para a entrega final
 
-void calculateProjectionAndViewMatrices(glm::vec3 *position, float *horizontalAngle, float *verticalAngle, float *initialFoV, float *deltaTime, bool shouldLockCamera ){
+void calculateProjectionAndViewMatrices(glm::vec3 *position, float *horizontalAngle, float *verticalAngle, float *initialFoV, float *deltaTime, Match *match ){
 	
 	
 
@@ -78,7 +81,7 @@ void calculateProjectionAndViewMatrices(glm::vec3 *position, float *horizontalAn
 	glfwSetCursorPos(window, 1024 / 2, 768 / 2);
 
 	// Compute new orientation
-	if (!shouldLockCamera) {
+	if (!match->shouldDrawMenu()) {
 		*horizontalAngle += mouseSpeed * float(1024 / 2 - xpos);
 		*verticalAngle += mouseSpeed * float(768 / 2 - ypos);
 	}
@@ -163,6 +166,26 @@ void calculateProjectionAndViewMatrices(glm::vec3 *position, float *horizontalAn
 			camera = 1;
 		}
 	}
+
+	// GAMEPLAY CONTROLS
+	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
+
+		if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_RELEASE) {
+			match->previousHole();
+		}
+	}
+	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+
+		if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_RELEASE) {
+			match->nextHole();
+		}
+	}
+	if (glfwGetKey(window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS) {
+
+		if (glfwGetKey(window, GLFW_MOUSE_BUTTON_1) == GLFW_RELEASE) {
+			match->selectHole();
+		}
+	}
 	
 
 	float FoV = *initialFoV;
@@ -197,10 +220,11 @@ void calculateProjectionAndViewMatrices(glm::vec3 *position, float *horizontalAn
 			up                  // Head is up (set to 0,-1,0 to look upside-down)
 		);
 	}
-	
+	match->setProjectionMatrix(ProjectionMatrix);
+	match->setViewMatrix(ViewMatrix);
 }
 
-void computeMatricesFromInputs(bool *shouldDrawMenu){
+void computeMatricesFromInputs(Match *match){
 
 	// glfwGetTime is called only once, the first time this function is called
 	static double lastTime = glfwGetTime();
@@ -216,24 +240,24 @@ void computeMatricesFromInputs(bool *shouldDrawMenu){
 	switch (camera)
 	{
 	case 1:
-		*shouldDrawMenu = false;
-		calculateProjectionAndViewMatrices(&position, &horizontalAngle, &verticalAngle, &initialFoV, &deltaTime, *shouldDrawMenu);
+		match->setShouldDrawMenu(false);
+		calculateProjectionAndViewMatrices(&position, &horizontalAngle, &verticalAngle, &initialFoV, &deltaTime, match);
 		break;
 	case 2:
-		*shouldDrawMenu = false;
-		calculateProjectionAndViewMatrices(&position2, &horizontalAngle2, &verticalAngle2, &initialFoV2, &deltaTime, *shouldDrawMenu);
+		match->setShouldDrawMenu(false);
+		calculateProjectionAndViewMatrices(&position2, &horizontalAngle2, &verticalAngle2, &initialFoV2, &deltaTime, match);
 		break;
 	case 3:
-		*shouldDrawMenu = false;
-		calculateProjectionAndViewMatrices(&position3, &horizontalAngle3, &verticalAngle3, &initialFoV3, &deltaTime, *shouldDrawMenu);
+		match->setShouldDrawMenu(false);
+		calculateProjectionAndViewMatrices(&position3, &horizontalAngle3, &verticalAngle3, &initialFoV3, &deltaTime, match);
 		break;
 	case 4:
-		*shouldDrawMenu = false;
-		calculateProjectionAndViewMatrices(&position4, &horizontalAngle4, &verticalAngle4, &initialFoV4, &deltaTime, *shouldDrawMenu);
+		match->setShouldDrawMenu(false);
+		calculateProjectionAndViewMatrices(&position4, &horizontalAngle4, &verticalAngle4, &initialFoV4, &deltaTime, match);
 		break;
 	case 5:
-		*shouldDrawMenu = true;
-		calculateProjectionAndViewMatrices(&positionMenu, &horizontalAngleMenu, &verticalAngleMenu, &initialFoVMenu, &deltaTime, *shouldDrawMenu);
+		match->setShouldDrawMenu(true);
+		calculateProjectionAndViewMatrices(&positionMenu, &horizontalAngleMenu, &verticalAngleMenu, &initialFoVMenu, &deltaTime, match);
 		break;
 	default:
 		break;
