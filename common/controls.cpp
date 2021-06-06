@@ -103,63 +103,7 @@ void calculateProjectionAndViewMatrices(glm::vec3 *position, float *horizontalAn
 	// Up vector
 	glm::vec3 up = glm::cross(right, direction);
 
-	// Move forward
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-		*position += direction * *deltaTime * speed;
-	}
-	// Move backward
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-		*position -= direction * *deltaTime * speed;
-	}
-	// Strafe right
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-		*position += right * *deltaTime * speed;
-	}
-	// Strafe left
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-		*position -= right * *deltaTime * speed;
-	}
-	// change projection
-	if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS) {
-
-		if (glfwGetKey(window, GLFW_KEY_P) == GLFW_RELEASE) {
-			swapProjectionFlag = !swapProjectionFlag;
-		}
-	}
-	// zoom in
-	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
-		*initialFoV -= *initialFoV * *deltaTime;
-	}
-	// zoom out
-	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
-		*initialFoV += *initialFoV * *deltaTime;
-	}
-
-	// change cameras
-	if (glfwGetKey(window, GLFW_KEY_F1) == GLFW_PRESS) {
-
-		if (glfwGetKey(window, GLFW_KEY_F1) == GLFW_RELEASE) {
-			camera = 1;
-		}
-	}
-	if (glfwGetKey(window, GLFW_KEY_F2) == GLFW_PRESS) {
-
-		if (glfwGetKey(window, GLFW_KEY_F2) == GLFW_RELEASE) {
-			camera = 2;
-		}
-	}
-	if (glfwGetKey(window, GLFW_KEY_F3) == GLFW_PRESS) {
-
-		if (glfwGetKey(window, GLFW_KEY_F3) == GLFW_RELEASE) {
-			camera = 3;
-		}
-	}
-	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
-
-		if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_RELEASE) {
-			camera = 4;
-		}
-	}
+	
 	if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS) {
 
 		if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_RELEASE) {
@@ -167,25 +111,92 @@ void calculateProjectionAndViewMatrices(glm::vec3 *position, float *horizontalAn
 		}
 	}
 
-	// GAMEPLAY CONTROLS
-	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
-
-		if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_RELEASE) {
-			match->previousHole();
+	if (match->isGameOver()) {
+		if (glfwGetKey(window, GLFW_KEY_ENTER) == GLFW_PRESS) {
+			camera = 1;
+			match->startGame(true);
 		}
 	}
-	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
 
-		if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_RELEASE) {
-			match->nextHole();
+	if (!match->shouldDrawMenu() && !match->isGameOver()) {
+		// Move forward
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+			*position += direction * *deltaTime * speed;
+		}
+		// Move backward
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+			*position -= direction * *deltaTime * speed;
+		}
+		// Strafe right
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+			*position += right * *deltaTime * speed;
+		}
+		// Strafe left
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+			*position -= right * *deltaTime * speed;
+		}
+		// change projection
+		if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS) {
+
+			if (glfwGetKey(window, GLFW_KEY_P) == GLFW_RELEASE) {
+				swapProjectionFlag = !swapProjectionFlag;
+			}
+		}
+		// zoom in
+		if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+			*initialFoV -= *initialFoV * *deltaTime;
+		}
+		// zoom out
+		if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+			*initialFoV += *initialFoV * *deltaTime;
+		}
+
+		// change cameras
+		if (glfwGetKey(window, GLFW_KEY_F1) == GLFW_PRESS) {
+
+			if (glfwGetKey(window, GLFW_KEY_F1) == GLFW_RELEASE) {
+				camera = 1;
+			}
+		}
+		if (glfwGetKey(window, GLFW_KEY_F2) == GLFW_PRESS) {
+
+			if (glfwGetKey(window, GLFW_KEY_F2) == GLFW_RELEASE) {
+				camera = 2;
+			}
+		}
+		if (glfwGetKey(window, GLFW_KEY_F3) == GLFW_PRESS) {
+
+			if (glfwGetKey(window, GLFW_KEY_F3) == GLFW_RELEASE) {
+				camera = 3;
+			}
+		}
+		if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) {
+
+			if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_RELEASE) {
+				camera = 4;
+			}
+		}
+		// GAMEPLAY CONTROLS
+		if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS) {
+
+			if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_RELEASE) {
+				match->previousHole();
+			}
+		}
+		if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS) {
+
+			if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_RELEASE) {
+				match->nextHole();
+			}
+		}
+		if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
+
+			if (glfwGetKey(window, GLFW_KEY_E) == GLFW_RELEASE) {
+				match->selectHole();
+			}
 		}
 	}
-	if (glfwGetKey(window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS) {
 
-		if (glfwGetKey(window, GLFW_MOUSE_BUTTON_1) == GLFW_RELEASE) {
-			match->selectHole();
-		}
-	}
 	
 
 	float FoV = *initialFoV;

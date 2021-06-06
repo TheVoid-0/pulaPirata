@@ -8,10 +8,11 @@ Player::Player(int hp, int id)
 	this->swordsUsed = 0;
 	this->animating = false;
 	this->animationFrames = 0;
-	// TODO: instanciar todas as espadas e colocar elas em algum lugar na mesa.
+
+	char* texturePath = id == 1 ? "./objects/textures/Espada_p1_texture.dds" : "./objects/textures/Espada_p2_texture.dds";
 	for(int i=0; i < 8; i++)
 	{
-		this->swords[i] = Obj("objects/espada.obj", "./objects/textures/Espada_texture.dds");
+		this->swords[i] = Obj("objects/espada.obj", texturePath);
 	}
 }
 

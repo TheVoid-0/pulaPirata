@@ -94,7 +94,6 @@ int main( void )
 	programHandler();
 
 	Match match;
-	Obj espada("objects/espada.obj","./objects/textures/Espada_texture.dds");
 
 	do{
 
