@@ -24,7 +24,7 @@ private:
 	bool drawMenu;
 	glm::mat4 projectionMatrix;
 	glm::mat4 viewMatrix;
-	Light lights[2];
+	Light lights[3];
 	bool gameOver;
 
 	void setInitialPosition();
@@ -36,7 +36,7 @@ public:
 	void setViewMatrix(glm::mat4 viewMatrix);
 	glm::mat4 getProjectionMatrix();
 	glm::mat4 getViewMatrix();
-	void startGame();
+	void startGame(bool isRestart);
 	void nextHole();
 	void previousHole();
 	void selectHole();
@@ -44,7 +44,6 @@ public:
 	void setShouldDrawMenu(bool shouldDrawMenu);
 	bool shouldDrawMenu();
 	bool isGameOver();
-	void restartGame();
 
 };
 

@@ -139,6 +139,65 @@ void Obj::draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, Light light)
 	glDrawArrays(GL_TRIANGLES, 0, this->vertices.size());
 }
 
+void Obj::draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, Light* light)
+{
+	glm::mat4 MVP = projectionMatrix * viewMatrix * this->modelMatrix;
+
+	glUniform3f(getLightID(), light->position.x, light->position.y, light->position.z);
+	glUniform3f(getLightColorID(), light->color.x, light->color.y, light->color.z);
+	glUniform1f(getLightPowerID(), light->power);
+
+	// Send our transformation to the currently bound shader, 
+	// in the "MVP" uniform
+	glUniformMatrix4fv(getMatrixId(), 1, GL_FALSE, &MVP[0][0]);
+	glUniformMatrix4fv(getModelMatrixID(), 1, GL_FALSE, &this->modelMatrix[0][0]);
+	glUniformMatrix4fv(getViewMatrixId(), 1, GL_FALSE, &viewMatrix[0][0]);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, this->texture);
+
+	// 1rst attribute buffer : vertices
+	glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, this->vertexBuffer);
+	glVertexAttribPointer(
+		0,                  // attribute
+		3,                  // size
+		GL_FLOAT,           // type
+		GL_FALSE,           // normalized?
+		0,                  // stride
+		(void*)0            // array buffer offset
+	);
+	//glBufferData(GL_ARRAY_BUFFER, this->vertices.size() * sizeof(glm::vec3), &this->vertices[0], GL_STATIC_DRAW);
+
+	// 2nd attribute buffer : UVs
+	glEnableVertexAttribArray(1);
+	glBindBuffer(GL_ARRAY_BUFFER, this->uvBuffer);
+	glVertexAttribPointer(
+		1,                                // attribute
+		2,                                // size
+		GL_FLOAT,                         // type
+		GL_FALSE,                         // normalized?
+		0,                                // stride
+		(void*)0                          // array buffer offset
+	);
+	//glBufferData(GL_ARRAY_BUFFER, this->uvs.size() * sizeof(glm::vec2), &this->uvs[0], GL_STATIC_DRAW);
+
+	// 3rd attribute buffer : normals
+	glEnableVertexAttribArray(2);
+	glBindBuffer(GL_ARRAY_BUFFER, this->normalBuffer);
+	glVertexAttribPointer(
+		2,                                // attribute
+		3,                                // size
+		GL_FLOAT,                         // type
+		GL_FALSE,                         // normalized?
+		0,                                // stride
+		(void*)0                          // array buffer offset
+	);
+	//glBufferData(GL_ARRAY_BUFFER, this->normals.size() * sizeof(glm::vec3), &this->normals[0], GL_STATIC_DRAW);
+
+	glDrawArrays(GL_TRIANGLES, 0, this->vertices.size());
+}
+
 void Obj::translate(glm::vec3 xyz)
 {
 	this->modelMatrix = glm::translate(this->modelMatrix, xyz);

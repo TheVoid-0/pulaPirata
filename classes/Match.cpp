@@ -3,7 +3,7 @@
 
 Match::Match()
 {
-	this->startGame();
+	this->startGame(false);
 }
 
 void Match::setProjectionMatrix(glm::mat4 projectionMatrix)
@@ -27,7 +27,7 @@ glm::mat4 Match::getViewMatrix()
 }
 
 
-void Match::startGame()
+void Match::startGame(bool isRestart)
 {
 	this->gameOver = false;
 	this->turn = 0;
@@ -35,13 +35,16 @@ void Match::startGame()
 	this->holesTaken = 0;
 	this->players[0] = Player(2, 1);
 	this->players[1] = Player(2, 2);
-	this->barrel = Obj("objects/barril.obj", "./objects/textures/Barril_texture.dds");
-	this->table = Obj("objects/mesa.obj", "./objects/textures/Mesa_texture.dds");
-	this->pirate = Obj("objects/pirata.obj", "./objects/textures/Pirata_texture.dds");
-	this->menu = Obj("objects/Menu.obj", "./objects/textures/Texture_Cubo.dds");
+	if (!isRestart) {
+		this->barrel = Obj("objects/barril.obj", "./objects/textures/Barril_texture.dds");
+		this->table = Obj("objects/mesa.obj", "./objects/textures/Mesa_texture.dds");
+		this->pirate = Obj("objects/pirata.obj", "./objects/textures/Pirata_texture.dds");
+		this->menu = Obj("objects/Menu.obj", "./objects/textures/Texture_Cubo.dds");
+	}
 	this->setInitialPosition();
 	this->lights[0] = Light(glm::vec3(4, 4, 4), glm::vec3(1, 1, 1), 50.0f);
 	this->lights[1] = Light(glm::vec3(4, 4, 4), glm::vec3(1, 1, 1), 20.0f);
+	this->lights[2] = Light(glm::vec3(-4, 4, -4), glm::vec3(1, 1, 1), 20.0f);
 
 	this->holes[0] = Hole(glm::vec3(-1.2f, 0.35f, 0.1f), 10.0f);
 	this->holes[1] = Hole(glm::vec3(-1.25f, -0.3f, 0.65f), 32.0f);
@@ -65,9 +68,7 @@ void Match::startGame()
 		this->holes[i].setIsTrap(true);
 	}
 
-	// TODO: colocar a localização de cada buraco manualmente :(
-	// sem a construção dos holes[] o programa vai crashar
-	// e decidir se será uma trap ou não
+	// TODO: decidir aleatoriamente qual buraco vai ser uma trap
 }
 
 void Match::nextHole()
@@ -183,40 +184,6 @@ bool Match::shouldDrawMenu()
 bool Match::isGameOver()
 {
 	return this->gameOver;
-}
-
-void Match::restartGame()
-{
-	this->gameOver = false;
-	this->turn = 0;
-	this->indexSelected = 0;
-	this->holesTaken = 0;
-	this->players[0] = Player(2, 1);
-	this->players[1] = Player(2, 2);
-	this->setInitialPosition();
-
-	this->holes[0] = Hole(glm::vec3(-1.2f, 0.35f, 0.1f), 10.0f);
-	this->holes[1] = Hole(glm::vec3(-1.25f, -0.3f, 0.65f), 32.0f);
-	this->holes[2] = Hole(glm::vec3(-0.8f, 0.35f, 0.95f), 55.0f);
-	this->holes[3] = Hole(glm::vec3(-0.35f, -0.3f, 1.15f), 77.0f);
-	this->holes[4] = Hole(glm::vec3(0.1f, 0.35f, 1.25f), 100.0f);
-	this->holes[5] = Hole(glm::vec3(0.60f, -0.3f, 1.2f), 122.0f);
-	this->holes[6] = Hole(glm::vec3(1.0f, 0.35f, 0.85f), 145.0f);
-	this->holes[7] = Hole(glm::vec3(1.30f, -0.3f, 0.40f), 167.0f);
-	this->holes[8] = Hole(glm::vec3(1.2f, 0.35f, -0.1f), 190.0f);
-	this->holes[9] = Hole(glm::vec3(1.20f, -0.3f, -0.60f), 212.0f);
-	this->holes[10] = Hole(glm::vec3(0.85f, 0.35f, -1.0f), 235.0f);
-	this->holes[11] = Hole(glm::vec3(0.40f, -0.3f, -1.20f), 257.0f);
-	this->holes[12] = Hole(glm::vec3(-0.10f, 0.35f, -1.25f), 280.0f);
-	this->holes[13] = Hole(glm::vec3(-0.60f, -0.3f, -1.15f), 302.0f);
-	this->holes[14] = Hole(glm::vec3(-1.00f, 0.35f, -0.85f), 325.0f);
-	this->holes[15] = Hole(glm::vec3(-1.3f, -0.3f, -0.40f), 347.0f);
-
-	// TODO: sortear novamente os Holes que serão traps
-	for (int i = 0; i < 8; i++)
-	{
-		this->holes[i].setIsTrap(true);
-	}
 }
 
 void Match::setInitialPosition()

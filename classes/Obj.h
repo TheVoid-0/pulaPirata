@@ -27,6 +27,7 @@ public:
 	Obj();
 	void draw();
 	void draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, Light light);
+	void draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, Light *light);
 	void translate(glm::vec3 xyz);
 	void rotate(GLfloat angle, glm::vec3 xyz);
 	//void scale();
