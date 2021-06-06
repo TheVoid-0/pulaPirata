@@ -12,6 +12,7 @@ Player::Player(int hp, int id)
 	for(int i=0; i < 8; i++)
 	{
 		this->swords[i] = Obj("objects/espada.obj", "./objects/textures/Espada_texture.dds");
+		this->swords[i].translate(glm::vec3(0.0f, -4.0f, 0.0f));
 	}
 }
 
@@ -79,11 +80,17 @@ void Player::damagePirate(bool reset, Light* light)
 		light->setColor(1.0f, 1.0f, 1.0f);
 		light->setPower(20.0f);
 		light->setPosition(4.0f, 4.0f, 4.0f);
+		(light + 1)->setColor(1.0f, 1.0f, 1.0f);
+		(light + 1)->setPower(20.0f);
+		(light + 1)->setPosition(-4.0f, 4.0f, -4.0f);
 	}
 	else {
-		light->setColor(1.0f, 0.0f, 0.0f);
-		light->setPower(80.0f);
-		light->setPosition(4.0f, 4.0f, 4.0f);
+		//light->setColor(1.0f, 0.0f, 0.0f);
+		//light->setPower(80.0f);
+		//light->setPosition(4.0f, 4.0f, 4.0f);
+		(light + 1)->setColor(1.0f, 0.0f, 0.0f);
+		(light + 1)->setPower(80.0f);
+		(light + 1)->setPosition(-4.0f, 4.0f, -4.0f);
 	}
 }
 

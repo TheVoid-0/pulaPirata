@@ -27,8 +27,6 @@ using namespace glm;
 #include <pula_pirata/classes/Match.h>
 
 
-// TODO: fazer função inicializar os buffers e setar seus atributos apenas uma vez ou trocar os dados e sempre utilizar o mesmo buffer (estou tentando com um buffer para cada objeto)
-// TODO: separar o código em classes com propriedades de cada objeto (estou tentando)
 // TODO: deletar todos os buffers e liberar as texturas da memória (Não é prioridade, funciona de qualquer jeito, só seria o mais correto)
 
 
@@ -94,9 +92,20 @@ int main( void )
 	programHandler();
 
 	Match match;
-	Obj espada("objects/espada.obj","./objects/textures/Espada_texture.dds");
 
+	double lastTime = glfwGetTime();
+	int nbFrames = 0;
 	do{
+
+		// Measure speed
+		double currentTime = glfwGetTime();
+		nbFrames++;
+		if (currentTime - lastTime >= 1.0) { // If last prinf() was more than 1 sec ago
+			// printf and reset timer
+			printf("%f ms/frame\n", 1000.0 / double(nbFrames));
+			nbFrames = 0;
+			lastTime += 1.0;
+		}
 
 		// Clear the screen
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -106,27 +115,6 @@ int main( void )
 
 		computeMatricesFromInputs(&match);
 		match.draw();
-
-		
-		/*if (entra) {
-			novoX += 0.001;
-			printf("%f\n", novoX);
-
-			espada.translate(glm::vec3(novoX, 0.0f, 0.0f));
-
-			if (novoX >= 0.055) {
-				entra = false;
-				novoX = 0.0;
-			}
-		}*/
-		
-		
-		// PIRATA
-		//pirata.draw(ProjectionMatrix, ViewMatrix, luzPirata);
-
-//		if (shouldDrawMenu) {
-	//		menu.draw(ProjectionMatrix, ViewMatrix, luzAmbiente);
-		//}
 
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
