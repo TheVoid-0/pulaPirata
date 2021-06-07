@@ -31,14 +31,14 @@ void Player::draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, Light *light
 		if (i == this->swordsUsed) {
 
 			if (this->animating) {
-				this->swords[i].translate(glm::vec3(0.001f, 0.0f, 0.0f));
+				this->swords[i].translate(glm::vec3(0.03f, 0.0f, 0.0f));
 				this->animationFrames++;
 				// TODO: colocar o projeto dentro de frames definidos?
 				if (hole->isTrap()) {
 					this->damagePirate(false, (light + 1));
 				}
 
-				if (this->animationFrames == 1500) {
+				if (this->animationFrames == 60) {
 					this->animationFrames = 0;
 					this->damagePirate(true, (light + 1));
 					hole->setPlayerId(this->id);

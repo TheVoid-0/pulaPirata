@@ -94,35 +94,47 @@ int main( void )
 	Match match;
 
 	double lastTime = glfwGetTime();
+	double lastTimeCounter = glfwGetTime();
 	int nbFrames = 0;
+	double timeBetweenFrames = 0;
 	do{
 
 		// Measure speed
 		double currentTime = glfwGetTime();
-		nbFrames++;
-		if (currentTime - lastTime >= 1.0) { // If last prinf() was more than 1 sec ago
+		timeBetweenFrames = currentTime - lastTime;
+
+		if (currentTime - lastTimeCounter >= 1.0) { // If last prinf() was more than 1 sec ago
 			// printf and reset timer
-			printf("%f ms/frame\n", 1000.0 / double(nbFrames));
+			printf("%f ms/frame\n", 1000.0 / double(nbFrames)); // NOTE: <- more accurate for debugging--
+			// --frames per second can be deceiving, the best option is to always look at how many ms the frame needs to be drawn
+			// REFERENCE: OpenGl Tutorials - FPS counter
+			printf("%d frames/s\n", nbFrames);
 			nbFrames = 0;
-			lastTime += 1.0;
+			lastTimeCounter += 1.0;
 		}
 
-		// Clear the screen
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		if (timeBetweenFrames >= 0.016666666) { // Only draw if 16ms has passed, wich will give 60 frames on a second
+			// Clear the screen
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		// Use our shader
-		glUseProgram(getProgramId());
+			// Use our shader
+			glUseProgram(getProgramId());
 
-		computeMatricesFromInputs(&match);
-		match.draw();
+			computeMatricesFromInputs(&match);
+			match.draw();
 
-		glDisableVertexAttribArray(0);
-		glDisableVertexAttribArray(1);
-		glDisableVertexAttribArray(2);
 
-		// Swap buffers
-		glfwSwapBuffers(window);
-		glfwPollEvents();
+			nbFrames++;
+			lastTime += 0.016666666;
+
+			glDisableVertexAttribArray(0);
+			glDisableVertexAttribArray(1);
+			glDisableVertexAttribArray(2);
+
+			// Swap buffers
+			glfwSwapBuffers(window);
+			glfwPollEvents();
+		}
 
 	} // Check if the ESC key was pressed or the window was closed
 	while( glfwGetKey(window, GLFW_KEY_ESCAPE ) != GLFW_PRESS &&
