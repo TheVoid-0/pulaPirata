@@ -31,7 +31,6 @@ void Player::draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, Light *light
 			if (this->animating) {
 				this->swords[i].translate(glm::vec3(0.03f, 0.0f, 0.0f));
 				this->animationFrames++;
-				// TODO: colocar o projeto dentro de frames definidos?
 				if (hole->isTrap()) {
 					this->damagePirate(false, (light + 1));
 				}
@@ -87,12 +86,12 @@ void Player::damagePirate(bool reset, Light* light)
 		(light + 1)->setPosition(-4.0f, 4.0f, -4.0f);
 	}
 	else {
-		//light->setColor(1.0f, 0.0f, 0.0f);
-		//light->setPower(80.0f);
-		//light->setPosition(4.0f, 4.0f, 4.0f);
-		(light + 1)->setColor(1.0f, 0.0f, 0.0f);
-		(light + 1)->setPower(80.0f);
-		(light + 1)->setPosition(-4.0f, 4.0f, -4.0f);
+		light->setColor(1.0f, 0.0f, 0.0f);
+		light->setPower(80.0f);
+		light->setPosition(4.0f, 4.0f, 0.0f);
+		//(light + 1)->setColor(1.0f, 0.0f, 0.0f);
+		//(light + 1)->setPower(80.0f);
+		//(light + 1)->setPosition(-4.0f, 4.0f, 0.0f);
 	}
 }
 

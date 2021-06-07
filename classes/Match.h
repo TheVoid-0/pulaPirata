@@ -29,6 +29,9 @@ private:
 
 	void setInitialPosition();
 	void nextSelectableHole();
+	void generateTraps(int *output);
+	bool isUniqueInArray(int numberToTest, int* array);
+
 
 public:
 	Match();
