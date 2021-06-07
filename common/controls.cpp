@@ -29,24 +29,24 @@ glm::mat4 getOrthoProjectionMatrix() {
 
 // CAMERA 1
 // Initial position : on +Z
-glm::vec3 position = glm::vec3( 0, 5, 30 ); 
+glm::vec3 position = glm::vec3( 20, 6, 0 ); 
 // Initial horizontal angle : toward -Z
-float horizontalAngle = 3.14f;
+float horizontalAngle = -3.14f/2.0f;
 // Initial vertical angle : none
-float verticalAngle = -20.0f * 3.14f / 180.0f;//3.14f;
+float verticalAngle = -20.0f * 3.14f / 180.0f;
 // Initial Field of View
 float initialFoV = 45.0f;
 
 // CAMERA 2
-glm::vec3 position2 = glm::vec3(0, 5, -30);
-float horizontalAngle2 = 3.14f / 180.0f;// 3.14f;
+glm::vec3 position2 = glm::vec3(-20, 6, 0);
+float horizontalAngle2 = 3.14f / 2.0f;
 float verticalAngle2 = -20.0f * 3.14f / 180.0f;
 float initialFoV2 = 45.0f;
 
 // CAMERA 3
-glm::vec3 position3 = glm::vec3(0, 30, 0);
-float horizontalAngle3 = 3.14f;
-float verticalAngle3 = -90.0f * 3.14f / 180.0f;//3.14f;
+glm::vec3 position3 = glm::vec3(0, 25, 0);
+float horizontalAngle3 = -3.14f/2.0f;
+float verticalAngle3 = -90.0f * 3.14f / 180.0f;
 float initialFoV3 = 45.0f;
 
 // CAMERA 4
