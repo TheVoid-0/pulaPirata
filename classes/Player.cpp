@@ -26,9 +26,6 @@ void Player::draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, Light *light
 {
 	for (int i = 0; i <= this->swordsUsed; i++)
 	{
-		
-		// TODO: trocar a cor da espada ou fazer qualquer coisa para diferenciar os dois players
-		// TODO: Colocar o hp dos jogadores na tela
 		if (i == this->swordsUsed) {
 
 			if (this->animating) {
@@ -65,8 +62,9 @@ void Player::draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, Light *light
 			}
 		}
 		this->swords[i].draw(projectionMatrix, viewMatrix, *light);
-		this->showHp();
 	}
+
+	this->showHp();
 }
 
 void Player::draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, Light light)
