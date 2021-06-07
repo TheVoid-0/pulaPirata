@@ -19,5 +19,6 @@ public:
 	void damagePirate(bool reset, Light *light);
 	void setAnimating(bool animating);
 	bool isAnimating();
+	void showHp();
 };
 

@@ -1,4 +1,5 @@
 #include "Match.h"
+#include <pula_pirata\programHandler.hpp>
 
 
 Match::Match()
@@ -139,6 +140,9 @@ void Match::selectHole()
 
 void Match::draw()
 {
+	// Use our shader
+	glUseProgram(getProgramId());
+
 	if (this->drawMenu) {
 		this->menu.draw(this->projectionMatrix, this->viewMatrix, this->lights[0]);
 	}
@@ -154,7 +158,7 @@ void Match::draw()
 		this->players[turn].draw(this->projectionMatrix, this->viewMatrix, this->lights,
 			&this->holes[this->indexSelected], &changeTurn, &this->gameOver);
 
-		this->pirate.draw(this->projectionMatrix, this->viewMatrix, this->lights[1]);
+		this->pirate.draw(this->projectionMatrix, this->viewMatrix, this->lights[1], getProgramId());
 
 		for (int i = 0; i < 2; i++)
 		{

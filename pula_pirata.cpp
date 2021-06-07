@@ -19,6 +19,7 @@ using namespace glm;
 #include <common/texture.hpp>
 #include <common/controls.hpp>
 #include <common/objloader.hpp>
+#include <common/text2D.hpp>
 
 #include <pula_pirata/programHandler.hpp>
 #include <pula_pirata/classes/Obj.h>
@@ -96,7 +97,11 @@ int main( void )
 	double lastTime = glfwGetTime();
 	double lastTimeCounter = glfwGetTime();
 	int nbFrames = 0;
+	int lastFrameCount = 0;
 	double timeBetweenFrames = 0;
+
+	initText2D("./objects/textures/Holstein.DDS");
+
 	do{
 
 		// Measure speed
@@ -108,7 +113,8 @@ int main( void )
 			printf("%f ms/frame\n", 1000.0 / double(nbFrames)); // NOTE: <- more accurate for debugging--
 			// --frames per second can be deceiving, the best option is to always look at how many ms the frame needs to be drawn
 			// REFERENCE: OpenGl Tutorials - FPS counter
-			printf("%d frames/s\n", nbFrames);
+			//printf("%d frames/s\n", nbFrames);
+			lastFrameCount = nbFrames;
 			nbFrames = 0;
 			lastTimeCounter += 1.0;
 		}
@@ -117,12 +123,12 @@ int main( void )
 			// Clear the screen
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			// Use our shader
-			glUseProgram(getProgramId());
-
 			computeMatricesFromInputs(&match);
 			match.draw();
 
+			char text[256];
+			sprintf(text, "%d", lastFrameCount);
+			printText2D(text, 750, 580, 20);
 
 			nbFrames++;
 			lastTime += 0.016666666;

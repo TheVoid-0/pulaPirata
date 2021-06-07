@@ -139,6 +139,13 @@ void Obj::draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, Light light)
 	glDrawArrays(GL_TRIANGLES, 0, this->vertices.size());
 }
 
+void Obj::draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, Light light, GLuint programID)
+{
+	// Use our shader
+	glUseProgram(programID);
+	this->draw(projectionMatrix, viewMatrix, light);
+}
+
 void Obj::draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, Light* light)
 {
 	glm::mat4 MVP = projectionMatrix * viewMatrix * this->modelMatrix;
@@ -196,6 +203,13 @@ void Obj::draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, Light* light)
 	//glBufferData(GL_ARRAY_BUFFER, this->normals.size() * sizeof(glm::vec3), &this->normals[0], GL_STATIC_DRAW);
 
 	glDrawArrays(GL_TRIANGLES, 0, this->vertices.size());
+}
+
+void Obj::draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, Light* light, GLuint programID)
+{
+	// Use our shader
+	glUseProgram(programID);
+	this->draw(projectionMatrix, viewMatrix, light);
 }
 
 void Obj::translate(glm::vec3 xyz)

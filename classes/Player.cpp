@@ -1,4 +1,5 @@
 #include "Player.h"
+#include <common\text2D.hpp>
 
 
 Player::Player(int hp, int id)
@@ -64,6 +65,7 @@ void Player::draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, Light *light
 			}
 		}
 		this->swords[i].draw(projectionMatrix, viewMatrix, *light);
+		this->showHp();
 	}
 }
 
@@ -73,6 +75,7 @@ void Player::draw(glm::mat4 projectionMatrix, glm::mat4 viewMatrix, Light light)
 	{
 		this->swords[i].draw(projectionMatrix, viewMatrix, light);
 	}
+	this->showHp();
 }
 
 void Player::damagePirate(bool reset, Light* light)
@@ -103,4 +106,18 @@ void Player::setAnimating(bool animating)
 bool Player::isAnimating()
 {
 	return this->animating;
+}
+
+void Player::showHp()
+{
+	if (this->id == 1) {
+		char text[256];
+		sprintf(text, "Azul: %d", this->hp);
+		printText2D(text, 0, 0, 30);
+	}
+	else {
+		char text[256];
+		sprintf(text, "Rosa: %d", this->hp);
+		printText2D(text, 590, 0, 30);
+	}
 }

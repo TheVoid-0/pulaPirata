@@ -164,6 +164,8 @@ add_executable(pula_pirata
 	common/texture.hpp
 	common/objloader.cpp
 	common/objloader.hpp
+	common/text2D.hpp
+	common/text2D.cpp
 
 	pula_pirata/TransformVertexShader.vertexshader
 	pula_pirata/TextureFragmentShader.fragmentshader
