@@ -1,12 +1,12 @@
 # pula_pirata- Marco, Diovanna, Felipe Bolfe
-ATENÇÃO!!!! Coloque a pasta commons fora da pasta principal do projeto git (fiquei com preguiça de mudar o CMAKE)
+ATENÇÃO!!!! Organização do projeto alterada, todos os arquivos necessários para a compilação devem estar dentro da pasta raiz do clone.
 Ex:
 
 <pre>Pasta criada-> 
-      commons
       projetoClonado->
                  Coisas do projeto
-                 (commons foi movido daqui para pasta criada)</pre>
+                 (commons e dependencias externas)
+		 pula_pirata (código fonte)</pre>
 
 
 <h3> REGRAS: </h3>
