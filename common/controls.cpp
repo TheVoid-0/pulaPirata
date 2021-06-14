@@ -61,7 +61,7 @@ float horizontalAngleMenu = 3.14f;
 float verticalAngleMenu = 0.0f * 3.14f / 180.0f;
 float initialFoVMenu = 45.0f;
 
-float speed = 3.0f; // 3 units / second
+float speed = 8.0f; // 3 units / second
 float mouseSpeed = 0.005f;
 
 bool swapProjectionFlag = true;
